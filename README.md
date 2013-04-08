@@ -1,4 +1,4 @@
-MaskJS AST Manipulation
+Mask AST Manipulation
 ----
 
 <div>
