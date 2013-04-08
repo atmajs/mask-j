@@ -4,7 +4,6 @@
  *	``` $ includejs build.js ```
  **/
 
-
 global.config = {
 	'settings': {
 		io: {

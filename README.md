@@ -2,8 +2,8 @@ Mask AST Manipulation
 ----
 
 <div>
-	<a href='http://travis-ci.org/tenbits/mask.j'>
-		<img src='https://secure.travis-ci.org/tenbits/mask.j.png'/>
+	<a href='http://travis-ci.org/tenbits/mask-j'>
+		<img src='https://secure.travis-ci.org/tenbits/mask-j.png'/>
 	</a>
 </div>
 

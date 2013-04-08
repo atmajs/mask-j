@@ -1,5 +1,5 @@
 
-var jMask = (function(){
+var jMask = (function(mask){
 	'use strict';
 	// import ../src/scope-vars.js
 
@@ -16,5 +16,5 @@ var jMask = (function(){
 
 
 	return jMask;
-	
-}());
+
+}(Mask));
