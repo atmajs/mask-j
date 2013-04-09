@@ -44,6 +44,7 @@ arr_each(['filter', 'children', 'closest', 'parent', 'find', 'first', 'last'], f
 				}
 				result.push(x);
 			}
+			arr_unique(result);
 			break;
 		case 'closest':
 		case 'find':

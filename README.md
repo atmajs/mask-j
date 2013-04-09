@@ -9,7 +9,7 @@ Mask AST Manipulation
 
 ####MaskJS AST with jQuery syntax
 
-Performance comparison [jsperf](http://jsperf.com/dom-builder-mask-vs-jquery).
+Performance comparison [jsperf](http://jsperf.com/dom-builder-mask-vs-jquery/3).
 _But jmask is not here to replace jQuery. It only handles DOM Building and node manipulations before dom insert._
 ````javascript
 jmask("\
@@ -65,7 +65,7 @@ jmask(mix)
  .find(selector)
  .closest(selector)
  .parent(?selector)
- 
+
 
  .filter(selector)
  .children(?selector)
