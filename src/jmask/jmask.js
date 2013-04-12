@@ -65,7 +65,7 @@ jMask.prototype = {
 				this.type = Dom.CONTROLLER;
 			}
 
-			if (mix.nodes != null) {
+			if (mix.nodes != null && mix.nodes.length) {
 				for (i = mix.nodes.length; i !== 0;) {
 					// set controller as parent, as parent is mask dom node
 					mix.nodes[--i].parent = mix;
