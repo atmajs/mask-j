@@ -120,5 +120,32 @@ buster.testCase('Single ', {
 		assert.equals($('div {div; div;}').mask(), div.wrapAll('div').mask(), 'wrappAll failed');
 
 		assert.equals($('div > div; div > div;').mask(), div.wrap('div').mask(), 'wrap failed');
+	},
+
+	'selectors (filter)': function(){
+		var div = $('div; div name="xx"; span#spany.classy.class;');
+
+		function filter(selector, expect) {
+			assert.equals(div.filter(selector).length, expect, 'Selector Failed:"' + selector + '"');
+		}
+
+		filter('div', 2);
+		filter('span', 1);
+
+		filter('[name=xx]', 1);
+		filter('div[name="xx"]', 1);
+		filter('div[name=xx]', 1);
+		filter('span[name="xx"]', 0);
+		filter('div[name="xxx"]', 0);
+
+
+		filter('.classy', 1);
+		filter('.classy.class', 1);
+		filter('.classy.none', 0);
+
+		filter('div[id=spany]', 0);
+		filter('.classy', 1);
+
+
 	}
 });

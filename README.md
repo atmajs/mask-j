@@ -61,7 +61,7 @@ jmask(mix)
  .removeProp
  .css
 
-// selector only per tagName, or id, or class: 'div', '#perid', '.perclass'
+// selector: tagName, #id, .class, [attr=value]: 'div', '#perid', '.perclass', 'div[name=any]'
  .find(selector)
  .closest(selector)
  .parent(?selector)
