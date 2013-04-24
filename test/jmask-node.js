@@ -114,6 +114,16 @@ buster.testCase('Single ', {
 		assert.equals(str, div2.mask(), 'Two markups should be equal');
 
 	},
+	'div (text)': function(){
+		var div = $('div { "hello" " world!" }');
+
+		assert.equals('hello world!', div.text());
+		assert.equals('new', div.text('new').text());
+
+		div = $('div { "hello" " ~[html]!" }');
+		assert.equals('hello <span>1</span>!', div.text({html: '<span>1</span>'}));
+
+	},
 	'divs (manip)': function(){
 		var div = $('div;div;');
 
