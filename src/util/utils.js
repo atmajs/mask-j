@@ -18,6 +18,10 @@ function jmask_filter(arr, matcher) {
  * - mix (Node | Array[Node])
  */
 function jmask_find(mix, matcher, output) {
+	if (mix == null) {
+		return output;
+	}
+
 	if (output == null) {
 		output = [];
 	}
@@ -89,6 +93,25 @@ function jmask_deepest(node){
 		current = current.nodes && current.nodes[0];
 	}
 	return prev;
+}
+
+
+function jmask_getText(node, model, cntx, controller) {
+	if (Dom.TEXTNODE === node.type) {
+		if (typeof node.content === 'function') {
+			return node.content('node', model, cntx, null, controller);
+		}
+		return node.content;
+	}
+
+	var output = '';
+	if (node.nodes != null) {
+		for(var i = 0, x, imax = node.nodes.length; i < imax; i++){
+			x = node.nodes[i];
+			output += jmask_getText(x, model, cntx, controller);
+		}
+	}
+	return output;
 }
 
 ////////function jmask_initHandlers($$, parent){

@@ -61,7 +61,7 @@ jMask.prototype = {
 		}
 
 		if (type === Dom.CONTROLLER) {
-			
+
 			if (mix.nodes != null && mix.nodes.length) {
 				for (i = mix.nodes.length; i !== 0;) {
 					// set controller as parent, as parent is mask dom node
@@ -146,6 +146,25 @@ jMask.prototype = {
 		}
 
 		return mask.stringify(node);
+	},
+
+	text: function(mix, cntx, controller){
+		if (typeof mix === 'string') {
+			var node = [new Dom.TextNode(mix)];
+
+			for(var i = 0, x, imax = this.length; i < imax; i++){
+				x = this[i];
+				x.nodes = node;
+			}
+			return this;
+		}
+
+		var string = '';
+		for(var i = 0, x, imax = this.length; i < imax; i++){
+			x = this[i];
+			string += jmask_getText(x, mix, cntx, controller);
+		}
+		return string;
 	}
 };
 
