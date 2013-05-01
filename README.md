@@ -46,6 +46,13 @@ jmask(mix)
 
  .mask(?mix) // jQuery ~ .html(?html)
 
+// add TEXTNODE(s) to child elements in SET
+ .text(string)
+// resolve text from all TEXTNODES, if there are inerpolation parts,
+// you can pass model, cntx and controller to this function
+ .text(?model, ?cntx, ?controller)
+
+
  .eq(index)
  .get(index)
  .slice(from,to)

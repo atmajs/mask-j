@@ -90,11 +90,11 @@ jMask.prototype = {
 	 * - returns (HTMLNode)
 	 *
 	 **/
-	render: function(model, cntx, container) {
+	render: function(model, cntx, container, controller) {
 		this.components = [];
 
 		if (this.length === 1) {
-			return _mask_render(this[0], model, cntx, container, this);
+			return _mask_render(this[0], model, cntx, container, controller || this);
 		}
 
 		if (container == null) {
@@ -102,7 +102,7 @@ jMask.prototype = {
 		}
 
 		for (var i = 0, length = this.length; i < length; i++) {
-			_mask_render(this[i], model, cntx, container, this);
+			_mask_render(this[i], model, cntx, container, controller || this);
 		}
 		return container;
 	},
@@ -200,10 +200,10 @@ arr_each(['append', 'prepend'], function(method) {
 
 arr_each(['appendTo'], function(method) {
 
-	jMask.prototype[method] = function(mix, model, cntx) {
+	jMask.prototype[method] = function(mix, model, cntx, controller) {
 
 		if (mix.nodeType != null && typeof mix.appendChild === 'function') {
-			mix.appendChild(this.render(model, cntx));
+			mix.appendChild(this.render(model, cntx, null, controller));
 
 			_signal_emitIn(this, 'domInsert');
 			return this;
