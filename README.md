@@ -9,8 +9,8 @@ Mask AST Manipulation
 
 ####MaskJS AST with jQuery syntax
 
-Performance comparison [jsperf](http://jsperf.com/dom-builder-mask-vs-jquery/3).
-_But jmask is not here to replace jQuery. It only handles DOM Building and node manipulations before dom insert._
+Performance comparison [jsperf](http://jsperf.com/dom-builder-mask-vs-jquery/4).
+_But jmask is not here to replace jQuery. It only handles maskDOM Building and node manipulations before dom insert._
 ````javascript
 jmask("\
 h1 > 'Header' \
