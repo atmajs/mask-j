@@ -1,11 +1,9 @@
-global.mask = require('../.import/mask.node.js');
 
-var buster = require('buster'),
-	$ = require('../lib/jmask.js');
+var $ = mask.jmask;
 
-
-buster.testCase('Single ', {
+UTest({
 	'lib': function(){
+		assert(mask.jmask != null);
 		assert(typeof $ === 'function', 'Compo.jmask is not a function');
 	},
 	'div (attr)': function() {
@@ -111,32 +109,32 @@ buster.testCase('Single ', {
 
 		var div2 = $(str);
 
-		assert.equals(str, div2.mask(), 'Two markups should be equal');
+		assert.equal(str, div2.mask(), 'Two markups should be equal');
 
 	},
 	'div (text)': function(){
 		var div = $('div { "hello" " world!" }');
 
-		assert.equals('hello world!', div.text());
-		assert.equals('new', div.text('new').text());
+		assert.equal('hello world!', div.text());
+		assert.equal('new', div.text('new').text());
 
 		div = $('div { "hello" " ~[html]!" }');
-		assert.equals('hello <span>1</span>!', div.text({html: '<span>1</span>'}));
+		assert.equal('hello <span>1</span>!', div.text({html: '<span>1</span>'}));
 
 	},
 	'divs (manip)': function(){
 		var div = $('div;div;');
 
-		assert.equals($('div {div; div;}').mask(), div.wrapAll('div').mask(), 'wrappAll failed');
+		assert.equal($('div {div; div;}').mask(), div.wrapAll('div').mask(), 'wrappAll failed');
 
-		assert.equals($('div > div; div > div;').mask(), div.wrap('div').mask(), 'wrap failed');
+		assert.equal($('div > div; div > div;').mask(), div.wrap('div').mask(), 'wrap failed');
 	},
 
 	'selectors (filter)': function(){
 		var div = $('div; div name="xx"; span#spany.classy.class;');
 
 		function filter(selector, expect) {
-			assert.equals(div.filter(selector).length, expect, 'Selector Failed:"' + selector + '"');
+			assert.equal(div.filter(selector).length, expect, 'Selector Failed:"' + selector + '"');
 		}
 
 		filter('div', 2);

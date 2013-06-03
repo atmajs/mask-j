@@ -22,7 +22,7 @@
 		"buster": "~0.6.3"
 	},
 	"scripts" : {
-        "test" : "node_modules/.bin/buster-test -r specification"
+        "test" : "node_modules/.bin/includejs test"
     },
 	"keywords": [],
 	"engines" : {
