@@ -96,11 +96,11 @@
 						}
 
 						for (var x in key) {
-							node.attr[x] = key[x];
+							node.attr[x] = _mask_ensureTmplFn(key[x]);
 						}
 
 					} else if (args === 2) {
-						node.attr[key] = value;
+						node.attr[key] = _mask_ensureTmplFn(value);
 					}
 					break;
 				case 'removeAttr':
