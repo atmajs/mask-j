@@ -27,7 +27,7 @@ jMask.prototype = {
 			mix = _mask_parse(mix);
 		}
 
-		if (mix instanceof Array) {
+		if (arr_isArray(mix)) {
 			for (i = 0, length = mix.length; i < length; i++) {
 				this.add(mix[i]);
 			}

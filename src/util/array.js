@@ -20,6 +20,9 @@ function arr_remove(array, child) {
 	array.splice(index, 1);
 }
 
+function arr_isArray(x) {
+	return x != null && typeof x === 'object' && x.length != null && typeof x.slice === 'function';
+}
 
 var arr_unique = (function() {
 
