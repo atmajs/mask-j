@@ -8,6 +8,7 @@ function jMask(mix) {
 	if (mix == null) {
 		return this;
 	}
+	
 	if (mix.type === Dom.SET) {
 		return mix;
 	}

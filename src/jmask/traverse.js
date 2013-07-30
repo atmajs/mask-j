@@ -17,7 +17,15 @@ util_extend(jMask.prototype, {
 });
 
 
-arr_each(['filter', 'children', 'closest', 'parent', 'find', 'first', 'last'], function(method) {
+arr_each([
+	'filter',
+	'children',
+	'closest',
+	'parent',
+	'find',
+	'first',
+	'last'
+], function(method) {
 
 	jMask.prototype[method] = function(selector) {
 		var result = [],

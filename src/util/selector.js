@@ -1,3 +1,9 @@
+
+var sel_key_UP = 'parent',
+	sel_key_MASK = 'nodes',
+	sel_key_COMPOS = 'components',
+	sel_key_ATTR = 'attr';
+
 function selector_parse(selector, type, direction) {
 	if (selector == null) {
 		console.warn('selector is null for type', type);
@@ -7,7 +13,14 @@ function selector_parse(selector, type, direction) {
 		return selector;
 	}
 
-	var key, prop, nextKey, filters, _key, _prop, _selector;
+	var key,
+		prop,
+		nextKey,
+		filters,
+
+		_key,
+		_prop,
+		_selector;
 
 	var index = 0,
 		length = selector.length,
@@ -18,9 +31,11 @@ function selector_parse(selector, type, direction) {
 		slicer;
 
 	if (direction === 'up') {
-		nextKey = 'parent';
+		nextKey = sel_key_UP;
 	} else {
-		nextKey = type === Dom.SET ? 'nodes' : 'components';
+		nextKey = type === Dom.SET
+			? sel_key_MASK
+			: sel_key_COMPOS;
 	}
 
 	while (index < length) {
@@ -36,13 +51,13 @@ function selector_parse(selector, type, direction) {
 
 		if (c === 46 /*.*/ ) {
 			_key = 'class';
-			_prop = 'attr';
+			_prop = sel_key_ATTR;
 			_selector = new RegExp('\\b' + selector.substring(index + 1, end) + '\\b');
 		}
 
 		else if (c === 35 /*#*/ ) {
 			_key = 'id';
-			_prop = 'attr';
+			_prop = sel_key_ATTR;
 			_selector = selector.substring(index + 1, end);
 		}
 
@@ -52,7 +67,7 @@ function selector_parse(selector, type, direction) {
 			eq === -1 && console.error('Attribute Selector: should contain "="');
 			// endif
 
-			_prop = 'attr';
+			_prop = sel_key_ATTR;
 			_key = selector.substring(index + 1, eq);
 
 			//slice out quotes if any
@@ -101,39 +116,11 @@ function selector_parse(selector, type, direction) {
 	}
 
 	return matcher;
-
-
-	////////
-	////////if (key == null) {
-	////////	switch (selector[0]) {
-	////////	case '#':
-	////////		key = 'id';
-	////////		selector = selector.substring(1);
-	////////		prop = 'attr';
-	////////		break;
-	////////	case '.':
-	////////		key = 'class';
-	////////		selector = new RegExp('\\b' + selector.substring(1) + '\\b');
-	////////		prop = 'attr';
-	////////		break;
-	////////	default:
-	////////		key = type === Dom.SET ? 'tagName' : 'compoName';
-	////////		break;
-	////////	}
-	////////}
-	////////
-	////////
-	////////
-	////////return {
-	////////	key: key,
-	////////	prop: prop,
-	////////	selector: selector,
-	////////	nextKey: nextKey
-	////////};
 }
 
 function selector_moveToBreak(selector, index, length) {
-	var c, isInQuote = false,
+	var c, 
+		isInQuote = false,
 		isEscaped = false;
 
 	while (index < length) {
