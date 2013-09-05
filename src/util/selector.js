@@ -127,7 +127,7 @@ function sel_hasClassDelegate(matchClass) {
 
 // [perf] http://jsperf.com/match-classname-indexof-vs-regexp/2
 function sel_hasClass(className, matchClass, index) {
-	if (className == null) 
+	if (typeof className !== 'string')
 		return false;
 	
 	if (index == null) 

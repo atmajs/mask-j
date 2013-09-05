@@ -5,23 +5,23 @@
 	"contributors":[
 	],
 	"main": "./lib/jmask.js",
-	"author": "Alexander Kit <source.kit@gmail.com>",
+	"author": "Alexander Kit <alex.kit@atmajs.com>",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/tenbits/mask-j.git"
+		"url": "https://github.com/atmajs/mask-j.git"
 	},
 	"bugs": {
-		"url": "https://github.com/tenbits/mask-j/issues"
+		"url": "https://github.com/atmajs/mask-j/issues"
 	},
 	"licenses": [
 		"MIT"
 	],
 	"dependencies": {},
 	"devDependencies": {
-		"includejs": "~0.9.30"
+		"atma": ">0.9.30"
 	},
 	"scripts" : {
-        "test" : "node_modules/.bin/includejs test"
+        "test" : "node_modules/.bin/atma test"
     },
 	"keywords": [],
 	"engines" : {
