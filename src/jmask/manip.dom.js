@@ -26,9 +26,16 @@ util_extend(jMask.prototype, {
 
 			result[i] = $wrapper[0];
 
-			if (this[i].parent != null){
-				this[i].parent.nodes = result[i];
-			}
+			var parentNodes = this[i].parent && this[i].parent.nodes;
+            if (parentNodes != null){
+                for(var j = 0, jmax = parentNodes.length; j < jmax; j++){
+                    if (parentNodes[j] === this[i]){
+                        
+                        parentNodes.splice(j, 1, result[i]);
+                        break;
+                    }
+                }
+            }
 		}
 
 		return jMask(result);

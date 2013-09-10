@@ -150,7 +150,7 @@ jMask.prototype = {
 	},
 
 	text: function(mix, cntx, controller){
-		if (typeof mix === 'string') {
+		if (typeof mix === 'string' && arguments.length === 1) {
 			var node = [new Dom.TextNode(mix)];
 
 			for(var i = 0, x, imax = this.length; i < imax; i++){
