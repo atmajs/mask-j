@@ -125,23 +125,24 @@ jMask.prototype = {
 		return this.pushStack(this.components || []);
 	},
 	mask: function(template) {
-		if (template != null) {
+		if (template != null) 
 			return this.empty().append(template);
-		}
-
-		if (arguments.length) {
+		
+		if (arguments.length) 
 			return this;
-		}
-
-		var node;
-
-		if (this.length === 0) {
+		
+		if (this.length === 0) 
 			node = new Dom.Node();
-		} else if (this.length === 1) {
+		
+		else if (this.length === 1) 
 			node = this[0];
-		} else {
+			
+		else {
 			node = new Dom.Fragment();
-			for (var i = 0, length = this.length; i < length; i++) {
+			node.nodes = null;
+			
+			var i = -1;
+			while ( ++i < this.length ){
 				node.nodes[i] = this[i];
 			}
 		}
