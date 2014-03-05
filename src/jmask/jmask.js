@@ -142,7 +142,7 @@ jMask.prototype = {
 			
 		else {
 			node = new Dom.Fragment();
-			node.nodes = null;
+			node.nodes = [];
 			
 			var i = -1;
 			while ( ++i < this.length ){
