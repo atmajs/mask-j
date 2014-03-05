@@ -1,15 +1,10 @@
 Mask AST Manipulation
 ----
+[![Build Status](https://travis-ci.org/atmajs/mask-j.png?branch=master)](https://travis-ci.org/atmajs/mask-j)
 
-<div>
-	<a href='http://travis-ci.org/tenbits/mask-j'>
-		<img src='https://secure.travis-ci.org/tenbits/mask-j.png'/>
-	</a>
-</div>
+####MaskJS DOM with jQuery syntax
 
-####MaskJS AST with jQuery syntax
-
-Performance comparison [jsperf](http://jsperf.com/dom-builder-mask-vs-jquery/4).
+Performance comparison [jsperf](http://jsperf.com/dom-builder-mask-vs-jquery/5).
 _But jmask is not here to replace jQuery. It only handles maskDOM Building and node manipulations before dom insert._
 ````javascript
 jmask("\
