@@ -125,11 +125,14 @@ jMask.prototype = {
 		return this.pushStack(this.components || []);
 	},
 	mask: function(template) {
+		var node;
+		
 		if (template != null) 
 			return this.empty().append(template);
 		
 		if (arguments.length) 
 			return this;
+		
 		
 		if (this.length === 0) 
 			node = new Dom.Node();

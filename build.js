@@ -1,10 +1,10 @@
 /**
  *	IncludeJSBuild
  *
- *	``` $ includejs build.js ```
+ *	``` $ atma ```
  **/
 
-global.config = {
+module.exports = {
 	'settings': {
 		io: {
 			extensions: {
