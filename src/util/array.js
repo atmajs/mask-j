@@ -1,6 +1,17 @@
-function arr_each(array, fn) {
-	for (var i = 0, length = array.length; i < length; i++) {
-		fn(array[i], i);
+function arr_each(any, fn) {
+	var isarray = any instanceof Array,
+		i = -1,
+		imax = isarray
+			? any.length
+			: 1
+		;
+	var x;
+	while ( ++i < imax ){
+		x = isarray
+			? any[i]
+			: any
+			;
+		fn(x, i);
 	}
 }
 
@@ -21,7 +32,11 @@ function arr_remove(array, child) {
 }
 
 function arr_isArray(x) {
-	return x != null && typeof x === 'object' && x.length != null && typeof x.slice === 'function';
+	return x != null
+		&& typeof x === 'object'
+		&& x.length != null
+		&& typeof x.slice === 'function'
+		;
 }
 
 var arr_unique = (function() {
