@@ -22,32 +22,44 @@ var jmask_filter,
 	/**
 	 * - mix (Node | Array[Node])
 	 */
-	jmask_find = function(mix, matcher, output) {
+	jmask_find = function(mix, matcher, output, deep) {
 		if (mix == null) {
 			return output;
 		}
-	
 		if (output == null) {
 			output = [];
 		}
-	
-		if (mix instanceof Array){
-			for(var i = 0, length = mix.length; i < length; i++){
-				jmask_find(mix[i], matcher, output);
+		if (deep == null) {
+			// is root and matchling like `> div` (childs only)
+			if (matcher.selector === '__scope__') {
+				deep = false;
+				matcher = matcher.next.matcher;
+			} else{
+				deep = true;
 			}
-			return output;
 		}
-	
-		if (selector_match(mix, matcher)){
-			output.push(mix);
-		}
-	
-		var next = mix[matcher.nextKey];
-	
-		if (next != null){
-			jmask_find(next, matcher, output);
-		}
-	
+		
+		arr_each(mix, function(node){
+			if (selector_match(node, matcher) === false) {
+				
+				if (matcher.next == null && deep !== false) 
+					jmask_find(node[matcher.nextKey], matcher, output, deep);
+				
+				return;
+			}
+			
+			if (matcher.next == null) {
+				output.push(node);
+				if (deep === true) 
+					jmask_find(node[matcher.nextKey], matcher, output, deep);
+					
+				return;
+			}
+			
+			var next = matcher.next;
+			deep = next.type !== 'children';
+			jmask_find(node[matcher.nextKey], next.matcher, output, deep);
+		});
 		return output;
 	};
 	

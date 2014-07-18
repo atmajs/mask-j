@@ -5,7 +5,7 @@ Mask AST Manipulation
 ####MaskJS DOM with jQuery syntax
 
 Performance comparison [jsperf](http://jsperf.com/dom-builder-mask-vs-jquery/5).
-_But jmask is not here to replace jQuery. It only handles maskDOM Building and node manipulations before dom insert._
+_But jmask is not here to replace jQuery. It only handles MaskDOM creation and manipulation._
 ````javascript
 jmask("\
 h1 > 'Header' \
@@ -63,7 +63,13 @@ jmask(mix)
  .removeProp
  .css
 
-// selector: tagName, #id, .class, [attr=value]: 'div', '#perid', '.perclass', 'div[name=any]'
+// Selectors:
+// By TagName, Class, Id, Attribute:
+// e.g.: 'div', '#perid', '.perclass', 'div[name=any]'
+
+// Nestings:
+// e.g.: foo>bar, >qux, >foo>*, foo bar,
+
  .find(selector)
  .closest(selector)
  .parent(?selector)
@@ -75,7 +81,7 @@ jmask(mix)
  .last(?selector)
 
 // mask render
- .render(?model, ?cntx, ?container) //-> HTMLNode | DocumentFragment
- .appendTo(HTMLNode, ?model, ?cntx)
+ .render(?model, ?ctx, ?container) //-> HTMLNode | DocumentFragment
+ .appendTo(HTMLNode, ?model, ?ctx)
 
 ````

@@ -25,21 +25,14 @@ module.exports = {
 		files: 'src/**',
 		config: '#[import]'
 	},
-	'export.embed': {
-		action: 'copy',
-		files: {
-			'lib/jmask.embed.js': '../mask/src/libs/jmask.js'
-		}
-	},
-
+	
 	'copy': {
 		files: {
-			'../mask/lib/mask.js' : '.import/mask.js',
-			'../mask/lib/mask.node.js' : '.import/mask.node.js'
+			'../mask/lib/mask.js' : '.import/mask.js'
 		}
 	},
 
-	'defaults': ['import', 'jshint', 'export.embed']
+	'defaults': ['import', 'jshint']
 };
 
 

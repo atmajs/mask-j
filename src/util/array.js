@@ -1,5 +1,5 @@
 function arr_each(any, fn) {
-	var isarray = any instanceof Array,
+	var isarray = arr_isArray(any),
 		i = -1,
 		imax = isarray
 			? any.length

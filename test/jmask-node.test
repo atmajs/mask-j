@@ -139,7 +139,6 @@ UTest({
 
 		filter('div', 2);
 		filter('span', 1);
-
 		filter('[name=xx]', 1);
 		filter('div[name="xx"]', 1);
 		filter('div[name=xx]', 1);

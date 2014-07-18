@@ -1,6 +1,12 @@
-
-
 module.exports = {
-	env: ['.import/mask.node.js::mask'],
-	tests: 'test/**.test'
+    suites: {
+        
+        node: {
+            exec: 'node',
+			env: [
+				'test/env.js'
+			],
+            tests: 'test/**.test'
+        }
+    }
 };
