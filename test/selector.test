@@ -26,6 +26,24 @@ UTest({
 		}
 	},
 	
+	'select textNodes': function(){
+		var div = jmask('div { \
+				section { "Foo" "Bar" } \
+				h4 > "Baz" \
+			}');
+		
+		[
+			['section >   	*', 2],
+			['h4>*', 1],
+		].forEach(function(x){
+			check(x[0], x[1]);
+		});
+		
+		function check(selector, expect){
+			eq_(div.find(selector).length, expect, '`' + selector + '`');
+		}
+	},
+	
 	'all siblings': function(){
 		var div = jmask('div { \
 				section { span > span > br; ul; } \
