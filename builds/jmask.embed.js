@@ -1,6 +1,6 @@
 
 var jmask = exports.jmask = Mask.jmask = (function(mask){
-	'use strict';
+	
 	// import ../src/scope-vars.js
 
 	// import ../src/util/object.js
