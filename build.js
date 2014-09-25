@@ -1,6 +1,5 @@
 /**
- *	IncludeJSBuild
- *
+ *	Atma.js Build
  *	``` $ atma ```
  **/
 
@@ -20,18 +19,16 @@ module.exports = {
 		files: ['lib/jmask.embed.js'],
 		jshint: JSHint()
 	},
-	
 	'watch': {
 		files: 'src/**',
 		config: '#[import]'
 	},
-	
-	'copy': {
+	'import.libs': {
+		action: 'copy',
 		files: {
 			'../mask/lib/mask.js' : '.import/mask.js'
 		}
 	},
-
 	'defaults': ['import', 'jshint']
 };
 
@@ -109,7 +106,50 @@ function JSHint() {
 			"onevar": false,
 			"passfail": false,
 			"white": false,
-			"predef": ["Mask", "Compo", "log_error", "log_warn", "global", "define", "atma", "io", "net", "mask", "include", "ruta", "ruqq", "Class", "logger", "app", "UTest", "assert", "eq_", "notEq_", "deepEq_", "notDeepEq_", "has_", "hasNot_"]
+			"predef": [
+				/* utils */
+				"is_Object",
+				"is_rawObject",
+				"is_String",
+				"is_Function",
+				"is_Array",
+				"is_ArrayLike",
+				"fn_doNothing",
+				"fn_proxy",
+				"fn_apply",
+				"obj_create",
+				"obj_extend",
+				"arr_remove",
+				"arr_each",
+				"coll_each",
+				"coll_map",
+				"coll_indexOf",
+				"coll_remove",
+				"Mask",
+				"Compo",
+				"log_error",
+				"log_warn",
+				"global",
+				"define",
+				"atma",
+				"io",
+				"net",
+				"mask",
+				"include",
+				"ruta",
+				"ruqq",
+				"Class",
+				"logger",
+				"app",
+				"UTest",
+				"assert",
+				"eq_",
+				"notEq_",
+				"deepEq_",
+				"notDeepEq_",
+				"has_",
+				"hasNot_"
+			]
 		}
 	return {
 		options: options,

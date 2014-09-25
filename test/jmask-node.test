@@ -3,69 +3,69 @@ var $ = mask.jmask;
 
 UTest({
 	'lib': function(){
-		assert(mask.jmask != null);
-		assert(typeof $ === 'function', 'Compo.jmask is not a function');
+		notEq_(mask.jmask, null);
+		eq_(typeof $, 'function', 'Compo.jmask is not a function');
 	},
 	'div (attr)': function() {
 		var div = $('div');
 
-		assert(div.length === 1, 'shoud contain one item');
-
+		eq_(div.length, 1, 'shoud contain one item');
 		// attr
 		div.attr('key', 'xvalue');
 		assert(div.attr('key') === 'xvalue', 'shoud have key="xvalue" attr');
-
+		
 		div.removeAttr('key');
 		assert(div.attr('key') == null, 'shoud have no key attr');
-
+		
 		div.prop('key', 'xvalue');
-		assert(div.prop('key') === 'xvalue', 'shoud have key="xvalue" prop');
-
+		eq_(div.prop('key'), 'xvalue', 'shoud have key="xvalue" prop');
+		
 		div.removeProp('key');
-		assert(div.prop('key') == null, 'shoud have no key prop');
+		eq_(div.prop('key'), null, 'shoud have no key prop');
 
 		// class
 		div.addClass('myclass');
-		assert(div.attr('class') === 'myclass', 'shoud have class="myclass" attr');
-		assert(div.hasClass('myclass'), 'shoud have myclass class');
-
+		eq_(div.attr('class'), 'myclass', 'shoud have class="myclass" attr');
+		eq_(div.hasClass('myclass'), true, 'shoud have myclass class');
+		
+	
 		div.addClass('other');
-		assert(div.attr('class') === 'myclass other', 'shoud have class="myclass other" attr');
-		assert(div.hasClass('myclass'), 'shoud have myclass class');
-		assert(div.hasClass('other'), 'shoud have other class');
+		eq_(div.attr('class'), 'myclass other', 'shoud have class="myclass other" attr');
+		eq_(div.hasClass('myclass'), true, 'shoud have myclass class');
+		eq_(div.hasClass('other'), true, 'shoud have other class');
 
 		div.removeClass('myclass');
-		assert(div.attr('class') === 'other', 'shoud have class="myclass other" attr');
-		assert(div.hasClass('myclass') == false, 'shouldnt have myclass class');
-		assert(div.hasClass('other'), 'shoud have other class');
+		eq_(div.attr('class'), 'other', 'shoud have class="myclass other" attr');
+		eq_(div.hasClass('myclass'), false, 'shouldnt have myclass class');
+		eq_(div.hasClass('other'), true, 'shoud have other class');
 
 		div.toggleClass('myclass');
-		assert(div.attr('class') === 'other myclass', 'shoud have class="other myclass" attr');
-		assert(div.hasClass('myclass'), 'shoud have myclass class');
-		assert(div.hasClass('other'), 'shoud have other class');
+		eq_(div.attr('class'), 'other myclass', 'shoud have class="other myclass" attr');
+		eq_(div.hasClass('myclass'), true, 'shoud have myclass class');
+		eq_(div.hasClass('other'), true, 'shoud have other class');
 
 		div.removeClass('other');
-		assert(div.attr('class') === 'myclass', 'shoud have class="other myclass" attr');
-		assert(div.hasClass('myclass'), 'shoud have myclass class');
+		eq_(div.attr('class'), 'myclass', 'shoud have class="other myclass" attr');
+		eq_(div.hasClass('myclass'), true, 'shoud have myclass class');
 
-		assert(div.hasClass('other') == false, 'shouldnt have other class');
+		eq_(div.hasClass('other'), false, 'shouldnt have other class');
 
 		// css
 		div.css('width', '10px');
 
-		assert(div.attr('style') === 'width:10px', 'should have style="width:10px" attr');
-		assert(div.css('width') === '10px', 'should have 10px for width');
+		eq_(div.attr('style'), 'width:10px;', 'should have style="width:10px" attr');
+		eq_(div.css('width'), '10px', 'should have 10px for width');
 
 		div.css({
 			height: '20px',
 			color: '#fff'
 		});
-		assert(div.css('color') === '#fff', 'should have #fff for color');
-		assert(div.css('width') === '10px', 'should have 10px for width');
+		eq_(div.css('color'), '#fff', 'should have #fff for color');
+		eq_(div.css('width'), '10px', 'should have 10px for width');
 
 		div.attr('style', 'font-weight:bold;');
-		assert(div.css('width') == null, 'shouldnt have 10px for width');
-		assert(div.css('font-weight') === 'bold', 'should have bold for font-weight');
+		eq_(div.css('width'), null, 'shouldnt have 10px for width');
+		eq_(div.css('font-weight'), 'bold', 'should have bold for font-weight');
 	},
 	'div (manip clone/append/remove/attr/class)': function() {
 		var div = $('div style="font-weight:bold"');
@@ -134,7 +134,7 @@ UTest({
 		var div = $('div; div name="xx"; span#spany.classy.class;');
 
 		function filter(selector, expect) {
-			assert.equal(div.filter(selector).length, expect, 'Selector Failed:"' + selector + '"');
+			eq_(div.filter(selector).length, expect, 'Selector Failed:"' + selector + '"');
 		}
 
 		filter('div', 2);
@@ -145,14 +145,11 @@ UTest({
 		filter('span[name="xx"]', 0);
 		filter('div[name="xxx"]', 0);
 
-
 		filter('.classy', 1);
 		filter('.classy.class', 1);
 		filter('.classy.none', 0);
 
 		filter('div[id=spany]', 0);
 		filter('.classy', 1);
-
-
 	}
 });

@@ -1,22 +1,14 @@
 function jMask(mix) {
-
-
-	if (this instanceof jMask === false) {
+	if (this instanceof jMask === false) 
 		return new jMask(mix);
-	}
-
-	if (mix == null) {
+	if (mix == null) 
 		return this;
-	}
-	
-	if (mix.type === Dom.SET) {
+	if (mix.type === Dom.SET) 
 		return mix;
-	}
-
 	return this.add(mix);
 }
 
-jMask.prototype = {
+var Proto = jMask.prototype = {
 	constructor: jMask,
 	type: Dom.SET,
 	length: 0,
@@ -28,7 +20,7 @@ jMask.prototype = {
 			mix = _mask_parse(mix);
 		}
 
-		if (arr_isArray(mix)) {
+		if (is_ArrayLike(mix)) {
 			for (i = 0, length = mix.length; i < length; i++) {
 				this.add(mix[i]);
 			}

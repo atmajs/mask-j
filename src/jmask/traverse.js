@@ -1,4 +1,4 @@
-util_extend(jMask.prototype, {
+obj_extend(jMask.prototype, {
 	each: function(fn, cntx) {
 		for (var i = 0; i < this.length; i++) {
 			fn.call(cntx || this, this[i], i)
@@ -29,7 +29,9 @@ arr_each([
 
 	jMask.prototype[method] = function(selector) {
 		var result = [],
-			matcher = selector == null ? null : selector_parse(selector, this.type, method === 'closest' ? 'up' : 'down'),
+			matcher = selector == null
+				? null
+				: selector_parse(selector, this.type, method === 'closest' ? 'up' : 'down'),
 			i, x;
 
 		switch (method) {

@@ -1,201 +1,93 @@
 (function() {
-	arr_each(['add', 'remove', 'toggle', 'has'], function(method) {
-
-		jMask.prototype[method + 'Class'] = function(klass) {
-			var length = this.length,
-				i = 0,
-				classNames, j, jmax, node, current;
-
-			if (typeof klass !== 'string') {
-				if (method === 'remove') {
-					for (; i < length; i++) {
-						this[0].attr['class'] = null;
-					}
-				}
-				return this;
+	Proto.removeAttr = Proto.removeProp = function(key){
+		return coll_each(this, function(node){
+			node.attr[key] = null;
+		});
+	};
+	Proto.attr = Proto.prop = function(mix, val){
+		if (arguments.length === 1) {
+			return this.length > 0 ? this[0].attr[mix] : null;
+		}
+		function asString(node, key, val){
+			node.attr[key] = _mask_ensureTmplFn(val);
+		}
+		function asObject(node, obj){
+			for(var key in obj){
+				asString(node, key, obj[key]);
 			}
-
-
-			for (; i < length; i++) {
-				node = this[i];
-
-				if (node.attr == null) {
-					continue;
-				}
-
-				current = node.attr['class'];
-
-				if (current == null) {
-					current = klass;
-				} else {
-					current = ' ' + current + ' ';
-
-					if (classNames == null) {
-						classNames = klass.split(' ');
-						jmax = classNames.length;
-					}
-					for (j = 0; j < jmax; j++) {
-						if (!classNames[j]) {
-							continue;
-						}
-
-						var hasClass = current.indexOf(' ' + classNames[j] + ' ') > -1;
-
-						if (method === 'has') {
-							if (hasClass) {
-								return true;
-							} else {
-								continue;
-							}
-						}
-
-						if (hasClass === false && (method === 'add' || method === 'toggle')) {
-							current += classNames[j] + ' ';
-						} else if (hasClass === true && (method === 'remove' || method === 'toggle')) {
-							current = current.replace(' ' + classNames[j] + ' ', ' ');
-						}
-					}
-					current = current.trim();
-				}
-
-				if (method !== 'has') {
-					node.attr['class'] = current;
-				}
-			}
-
-			if (method === 'has') {
-				return false;
-			}
-
-			return this;
-		};
-
-	});
-
-
-	arr_each(['attr', 'removeAttr', 'prop', 'removeProp'], function(method) {
-		jMask.prototype[method] = function(key, value) {
-			if (!key) {
-				return this;
-			}
-
-			var length = this.length,
-				i = 0,
-				args = arguments.length,
-				node;
-
-			for (; i < length; i++) {
-				node = this[i];
-
-				switch (method) {
-				case 'attr':
-				case 'prop':
-					if (args === 1) {
-						if (typeof key === 'string') {
-							return node.attr[key];
-						}
-
-						for (var x in key) {
-							node.attr[x] = _mask_ensureTmplFn(key[x]);
-						}
-
-					} else if (args === 2) {
-						node.attr[key] = _mask_ensureTmplFn(value);
-					}
-					break;
-				case 'removeAttr':
-				case 'removeProp':
-					node.attr[key] = null;
-					break;
-				}
-			}
-
-			return this;
-		};
-	});
-
-	util_extend(jMask.prototype, {
-		tag: function(arg) {
-			if (typeof arg === 'string') {
-				for (var i = 0, length = this.length; i < length; i++) {
-					this[i].tagName = arg;
-				}
-				return this;
-			}
+		}
+		var fn = is_String(mix) ? asString : asObject;
+		return coll_each(this, function(node){
+			fn(node, mix, val);
+		});
+	};
+	Proto.tag = function(name) {
+		if (arguments.length === 0) 
 			return this[0] && this[0].tagName;
-		},
-		css: function(mix, value) {
-			var args = arguments.length,
-				length = this.length,
-				i = 0,
-				css, key, style;
-
-			if (args === 1 && typeof mix === 'string') {
-				if (length === 0) {
-					return null;
-				}
-				if (typeof this[0].attr.style === 'string') {
-					return css_toObject(this[0].attr.style)[mix];
-				} else {
-					return null;
-				}
-			}
-
-			for (; i < length; i++) {
-				style = this[i].attr.style;
-
-				if (typeof style === 'function') {
-					continue;
-				}
-				if (args === 1 && typeof mix === 'object') {
-					if (style == null) {
-						this[i].attr.style = css_toString(mix);
-						continue;
-					}
-					css = css_toObject(style);
-					for (key in mix) {
-						css[key] = mix[key];
-					}
-					this[i].attr.style = css_toString(css);
-				}
-
-				if (args === 2) {
-					if (style == null) {
-						this[i].attr.style = mix + ':' + value;
-						continue;
-					}
-					css = css_toObject(style);
-					css[mix] = value;
-					this[i].attr.style = css_toString(css);
-
-				}
-			}
-
+		
+		return coll_each(this, function(node){
+			node.tagName = name;
+		});
+	};
+	Proto.css = function(mix, val) {
+		if (arguments.length <= 1 && typeof mix === 'string') {
+			if (this.length == null) 
+				return null;
+			
+			var style = this[0].attr.style;
+			if (style == null) 
+				return null;
+			
+			var obj = css_parseStyle(style);
+			return mix == null ? obj : obj[mix];
+		}
+		
+		if (mix == null) 
 			return this;
-		}
-	});
+		
+		var stringify = typeof mix === 'object'
+			? css_stringify
+			: css_stringifyKeyVal ;
+		var extend = typeof mix === 'object'
+			? obj_extend
+			: css_extendKeyVal ;
+			
+		return coll_each(this, function(node){
+			var style = node.attr.style;
+			if (style == null) {
+				node.attr.style = stringify(mix, val);
+				return;
+			}
+			var css = css_parseStyle(style);
+			extend(css, mix, val);
+			node.attr.style = css_stringify(css);
+		});
+	};
 
-	// TODO: val(...)?
-
-	function css_toObject(style) {
-		var arr = style.split(';'),
-			obj = {},
-			index;
-		for (var i = 0, x, length = arr.length; i < length; i++) {
-			x = arr[i];
-			index = x.indexOf(':');
-			obj[x.substring(0, index).trim()] = x.substring(index + 1).trim();
-		}
+	function css_extendKeyVal(css, key, val){
+		css[key] = val;
+	}
+	function css_parseStyle(style) {
+		var obj = {};
+		style.split(';').forEach(function(x){
+			if (x === '') 
+				return;
+			var i = x.indexOf(':'),
+				key = x.substring(0, i).trim(),
+				val = x.substring(i + 1).trim();
+			obj[key] = val;
+		});
 		return obj;
 	}
-
-	function css_toString(css) {
-		var output = [],
-			i = 0;
-		for (var key in css) {
-			output[i++] = key + ':' + css[key];
+	function css_stringify(css) {
+		var str = '', key;
+		for(key in css) {
+			str += key + ':' + css[key] + ';';
 		}
-		return output.join(';');
+		return str;
+	}
+	function css_stringifyKeyVal(key, val){
+		return key + ':' + val + ';';
 	}
 
 }());

@@ -12,7 +12,7 @@ var jmask_filter,
 			return mix;
 		
 		var result = [];
-		arr_each(mix, function(node) {
+		arr_eachAny(mix, function(node, i) {
 			if (selector_match(node, matcher)) 
 				result.push(node);
 		});
@@ -39,7 +39,7 @@ var jmask_filter,
 			}
 		}
 		
-		arr_each(mix, function(node){
+		arr_eachAny(mix, function(node){
 			if (selector_match(node, matcher) === false) {
 				
 				if (matcher.next == null && deep !== false) 
@@ -82,22 +82,24 @@ var jmask_filter,
 			}
 		}
 	
-		if (node.attr){
-			clone.attr = util_extend({}, node.attr);
+		if (node.attr != null){
+			clone.attr = obj_create(node.attr);
 		}
 	
 		var nodes = node.nodes;
 		if (nodes != null && nodes.length > 0){
-			clone.nodes = [];
-	
-			var isarray = nodes instanceof Array,
-				length = isarray === true ? nodes.length : 1,
-				i = 0;
-			for(; i< length; i++){
-				clone.nodes[i] = jmask_clone(isarray === true ? nodes[i] : nodes, clone);
+			if (is_ArrayLike(nodes) === false) {
+				clone.nodes = [ jmask_clone(nodes, clone) ];
+			}
+			else {
+				clone.nodes = [];
+				var imax = nodes.length,
+					i = 0;
+				for(; i< imax; i++){
+					clone.nodes[i] = jmask_clone(nodes[i], clone);
+				}
 			}
 		}
-	
 		return clone;
 	};
 	
@@ -113,10 +115,10 @@ var jmask_filter,
 	};
 	
 	
-	jmask_getText = function(node, model, cntx, controller) {
+	jmask_getText = function(node, model, ctx, controller) {
 		if (Dom.TEXTNODE === node.type) {
-			if (typeof node.content === 'function') {
-				return node.content('node', model, cntx, null, controller);
+			if (is_Function(node.content)) {
+				return node.content('node', model, ctx, null, controller);
 			}
 			return node.content;
 		}
@@ -125,7 +127,7 @@ var jmask_filter,
 		if (node.nodes != null) {
 			for(var i = 0, x, imax = node.nodes.length; i < imax; i++){
 				x = node.nodes[i];
-				output += jmask_getText(x, model, cntx, controller);
+				output += jmask_getText(x, model, ctx, controller);
 			}
 		}
 		return output;

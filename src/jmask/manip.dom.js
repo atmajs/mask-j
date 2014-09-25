@@ -1,82 +1,49 @@
-
-
-util_extend(jMask.prototype, {
+obj_extend(jMask.prototype, {
 	clone: function(){
-		var result = [];
-		for(var i = 0, length = this.length; i < length; i++){
-			result[i] = jmask_clone(this[0]);
-		}
-		return jMask(result);
+		return jMask(coll_map(this, jmask_clone));
 	},
-
-	// @TODO - wrap also in maskdom (modify parents)
 	wrap: function(wrapper){
-		var $mask = jMask(wrapper),
-			result = [],
-			$wrapper;
-
-		if ($mask.length === 0){
-			console.log('Not valid wrapper', wrapper);
+		var $wrap = jMask(wrapper);
+		if ($wrap.length === 0){
+			log_warn('Not valid wrapper', wrapper);
 			return this;
 		}
-
-		for(var i = 0, length = this.length; i < length; i++){
-			$wrapper = length > 0 ? $mask.clone() : $mask;
-			jmask_deepest($wrapper[0]).nodes = [this[i]];
-
-			result[i] = $wrapper[0];
-
-			var parentNodes = this[i].parent && this[i].parent.nodes;
-            if (parentNodes != null){
-                for(var j = 0, jmax = parentNodes.length; j < jmax; j++){
-                    if (parentNodes[j] === this[i]){
-                        
-                        parentNodes.splice(j, 1, result[i]);
-                        break;
-                    }
-                }
-            }
-		}
-
+		var result = coll_map(this, function(x){
+			var node = $wrap.clone()[0];
+			jmask_deepest(node).nodes = [ x ];
+			
+			if (x.parent != null) {
+				var i = coll_indexOf(x.parent.nodes, x);
+				if (i !== -1) 
+					x.parent.nodes.splice(i, 1, node);
+			}
+			return node
+		});
 		return jMask(result);
 	},
 	wrapAll: function(wrapper){
-		var $wrapper = jMask(wrapper);
-		if ($wrapper.length === 0){
-			console.error('Not valid wrapper', wrapper);
+		var $wrap = jMask(wrapper);
+		if ($wrap.length === 0){
+			log_error('Not valid wrapper', wrapper);
 			return this;
 		}
-
-
-		this.parent().mask($wrapper);
-
-		jmask_deepest($wrapper[0]).nodes = this.toArray();
-		return this.pushStack($wrapper);
+		this.parent().mask($wrap);
+		jmask_deepest($wrap[0]).nodes = this.toArray();
+		return this.pushStack($wrap);
 	}
 });
 
 arr_each(['empty', 'remove'], function(method) {
-	jMask.prototype[method] = function() {
-		var i = 0,
-			length = this.length,
-			node;
-
-		for (; i < length; i++) {
-			node = this[i];
-
-			if (method === 'empty') {
-				node.nodes = null;
-				continue;
-			}
-			if (method === 'remove') {
-				if (node.parent != null) {
-					arr_remove(node.parent.nodes, node);
-				}
-				continue;
-			}
-
+	jMask.prototype[method] = function(){
+		return coll_each(this, Methods_[method]);
+	};
+	var Methods_ = {
+		remove: function(node){
+			if (node.parent != null) 
+				coll_remove(node.parent.nodes, node);
+		},
+		empty: function(node){
+			node.nodes = null;
 		}
-
-		return this;
 	};
 });
