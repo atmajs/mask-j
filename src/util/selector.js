@@ -97,8 +97,9 @@ var selector_parse,
 				// increment, as cursor is on closed ']'
 				end++;
 			}
-			else if (c === 58 /*:*/) {
-				var start = ++index, name, expr;
+			else if (c === 58 /*:*/ && selector.charCodeAt(index + 1) === 58) {
+				index += 2;
+				var start = index, name, expr;
 				do {
 					c = selector.charCodeAt(index);
 				} while (c >= 97 /*a*/ && c <= 122 /*z*/ && ++index < length);
