@@ -1,7 +1,7 @@
 obj_extend(jMask.prototype, {
-	each: function(fn, cntx) {
+	each: function(fn, ctx) {
 		for (var i = 0; i < this.length; i++) {
-			fn.call(cntx || this, this[i], i)
+			fn.call(ctx || this, this[i], i)
 		}
 		return this;
 	},

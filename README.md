@@ -85,3 +85,6 @@ jmask(mix)
  .appendTo(HTMLNode, ?model, ?ctx)
 
 ````
+
+
+:copyright: 2015 - MIT - The Atma.js Project

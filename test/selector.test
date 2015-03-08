@@ -63,5 +63,23 @@ UTest({
 		function check(selector, expect){
 			eq_(div.find(selector).length, expect, '`' + selector + '`');
 		}
-	}	
+	},
+	'pseudo': {
+		'select text' () {
+			var div = jmask("div; 'Hello'");
+			eq_(div.length, 2);
+			
+			var text = div.filter(':text');
+			eq_(text.length, 1);
+			eq_(text.text(), 'Hello');
+		},
+		'!selector not' () {
+			var set = jmask("div; span;");
+			eq_(set.length, 2);
+			
+			var span = set.filter(':not(div)');
+			eq_(span.length, 1);
+			eq_(span[0].tagName, 'span');
+		}
+	}
 });

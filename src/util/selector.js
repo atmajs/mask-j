@@ -97,6 +97,36 @@ var selector_parse,
 				// increment, as cursor is on closed ']'
 				end++;
 			}
+			else if (c === 58 /*:*/) {
+				var start = ++index, name, expr;
+				do {
+					c = selector.charCodeAt(index);
+				} while (c >= 97 /*a*/ && c <= 122 /*z*/ && ++index < length);
+				
+				name = selector.substring(start, index);
+				if (c === 40 /*(*/) {
+					start = ++index;
+					do {
+						c = selector.charCodeAt(index);
+					} while (c !== 41/*)*/ && ++index < length);
+					expr = selector.substring(start, index);
+					index++;
+				}
+				var pseudo = PseudoSelectors(name, expr);
+				if (matcher == null) {
+					matcher = {
+						selector: '*'
+					};
+				}
+				if (root == null) {
+					root = matcher;
+				}
+				if (matcher.filters == null) {
+					matcher.filters = [];
+				}
+				matcher.filters.push(pseudo);
+				continue;
+			}
 			else {
 				
 				if (matcher != null) {
@@ -156,25 +186,22 @@ var selector_parse,
 			selector = selector_parse(selector, type);
 		}
 		
-		if (selector.selector === '*') 
-			return true;
-	
 		var obj = selector.prop ? node[selector.prop] : node,
 			matched = false;
 	
 		if (obj == null) 
 			return false;
-		
-		if (typeof selector.selector === 'function') {
+		if (selector.selector === '*') {
+			matched = true
+		}
+		else if (typeof selector.selector === 'function') {
 			matched = selector.selector(obj[selector.key]);
 		}
-		
 		else if (selector.selector.test != null) {
 			if (selector.selector.test(obj[selector.key])) {
 				matched = true;
 			}
 		}
-		
 		else  if (obj[selector.key] === selector.selector) {
 			matched = true;
 		}
@@ -182,7 +209,13 @@ var selector_parse,
 		if (matched === true && selector.filters != null) {
 			for(var i = 0, x, imax = selector.filters.length; i < imax; i++){
 				x = selector.filters[i];
-	
+				
+				if (typeof x === 'function') {
+					matched = x(node, type);
+					if (matched === false) 
+						return false;
+					continue;
+				}
 				if (selector_match(node, x, type) === false) {
 					return false;
 				}
@@ -261,4 +294,33 @@ var selector_parse,
 		return index;
 	}
 	
+	var PseudoSelectors;
+	(function() {
+		PseudoSelectors = function(name, expr) {
+			var fn = Fns[name];
+			if (fn !== void 0) 
+				return fn;
+			
+			var worker = Workers[name];
+			if (worker !== void 0) 
+				return worker(expr);
+			
+			throw new Error('Uknown pseudo selector:' + name);
+		};		
+		var Fns = {
+			text: function (node) {
+				return node.type === Dom.TEXTNODE;
+			},
+			node: function(node) {
+				return node.type === Dom.NODE;
+			}
+		};
+		var Workers = {
+			not: function(expr){
+				return function(node, type){
+					return !selector_match(node, expr, type);
+				}
+			}
+		};
+	}());
 }());
