@@ -116,7 +116,8 @@ var selector_parse,
 				var pseudo = PseudoSelectors(name, expr);
 				if (matcher == null) {
 					matcher = {
-						selector: '*'
+						selector: '*',
+						nextKey: nextKey
 					};
 				}
 				if (root == null) {
