@@ -1,4 +1,4 @@
-obj_extend(jMask.prototype, {
+obj_extend(Proto, {
 	clone: function(){
 		return jMask(coll_map(this, jmask_clone));
 	},
@@ -34,7 +34,7 @@ obj_extend(jMask.prototype, {
 });
 
 arr_each(['empty', 'remove'], function(method) {
-	jMask.prototype[method] = function(){
+	Proto[method] = function(){
 		return coll_each(this, Methods_[method]);
 	};
 	var Methods_ = {

@@ -108,6 +108,7 @@ function JSHint() {
 			"white": false,
 			"predef": [
 				/* utils */
+				"_Array_slice",
 				"is_Object",
 				"is_rawObject",
 				"is_String",
@@ -125,6 +126,7 @@ function JSHint() {
 				"coll_map",
 				"coll_indexOf",
 				"coll_remove",
+				"coll_find",
 				"Mask",
 				"Compo",
 				"log_error",

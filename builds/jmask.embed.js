@@ -14,7 +14,7 @@ var jmask = exports.jmask = Mask.jmask = (function(mask){
 	// import ../src/jmask/traverse.js
 
 
-
+	jMask.prototype.fn = jMask.prototype;
 	return jMask;
 
 }(Mask));

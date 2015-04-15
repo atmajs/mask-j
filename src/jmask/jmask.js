@@ -73,7 +73,7 @@ var Proto = jMask.prototype = {
 		return this;
 	},
 	toArray: function() {
-		return Array.prototype.slice.call(this);
+		return _Array_slice.call(this);
 	},
 	/**
 	 *	render([model, cntx, container]) -> HTMLNode
@@ -83,21 +83,21 @@ var Proto = jMask.prototype = {
 	 * - returns (HTMLNode)
 	 *
 	 **/
-	render: function(model, cntx, container, controller) {
+	render: function(model, ctx, el, ctr) {
 		this.components = [];
 
 		if (this.length === 1) {
-			return _mask_render(this[0], model, cntx, container, controller || this);
+			return _mask_render(this[0], model, ctx, el, ctr || this);
 		}
 
-		if (container == null) {
-			container = document.createDocumentFragment();
+		if (el == null) {
+			el = document.createDocumentFragment();
 		}
 
 		for (var i = 0, length = this.length; i < length; i++) {
-			_mask_render(this[i], model, cntx, container, controller || this);
+			_mask_render(this[i], model, ctx, el, ctr || this);
 		}
-		return container;
+		return el;
 	},
 	prevObject: null,
 	end: function() {
@@ -113,61 +113,36 @@ var Proto = jMask.prototype = {
 		if (this.components == null) {
 			console.warn('Set was not rendered');
 		}
-
 		return this.pushStack(this.components || []);
 	},
 	mask: function(template) {
-		var node;
-		
-		if (template != null) 
+		if (arguments.length !== 0) {
 			return this.empty().append(template);
-		
-		if (arguments.length) 
-			return this;
-		
-		
-		if (this.length === 0) 
-			node = new Dom.Node();
-		
-		else if (this.length === 1) 
-			node = this[0];
-			
-		else {
-			node = new Dom.Fragment();
-			node.nodes = [];
-			
-			var i = -1;
-			while ( ++i < this.length ){
-				node.nodes[i] = this[i];
-			}
 		}
-
-		return mask.stringify(node);
+		return mask.stringify(this);
 	},
 
-	text: function(mix, cntx, controller){
+	text: function(mix, ctx, ctr){
 		if (typeof mix === 'string' && arguments.length === 1) {
-			var node = [new Dom.TextNode(mix)];
+			var node = [ new Dom.TextNode(mix) ];
 
-			for(var i = 0, x, imax = this.length; i < imax; i++){
-				x = this[i];
-				x.nodes = node;
+			for(var i = 0, imax = this.length; i < imax; i++){
+				this[i].nodes = node;
 			}
 			return this;
 		}
 
-		var string = '';
-		for(var i = 0, x, imax = this.length; i < imax; i++){
-			x = this[i];
-			string += jmask_getText(x, mix, cntx, controller);
+		var str = '';
+		for(var i = 0, imax = this.length; i < imax; i++){
+			str += jmask_getText(this[i], mix, ctx, ctr);
 		}
-		return string;
+		return str;
 	}
 };
 
 arr_each(['append', 'prepend'], function(method) {
 
-	jMask.prototype[method] = function(mix) {
+	Proto[method] = function(mix) {
 		var $mix = jMask(mix),
 			i = 0,
 			length = this.length,
@@ -197,7 +172,7 @@ arr_each(['append', 'prepend'], function(method) {
 
 arr_each(['appendTo'], function(method) {
 
-	jMask.prototype[method] = function(mix, model, cntx, controller) {
+	Proto[method] = function(mix, model, cntx, controller) {
 
 		if (controller == null) {
 			controller = this;
