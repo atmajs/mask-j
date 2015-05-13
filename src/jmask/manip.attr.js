@@ -5,8 +5,8 @@
 		});
 	};
 	Proto.attr = Proto.prop = function(mix, val){
-		if (arguments.length === 1) {
-			return this.length > 0 ? this[0].attr[mix] : null;
+		if (arguments.length === 1 && is_String(mix)) {
+			return this.length !== 0 ? this[0].attr[mix] : null;
 		}
 		function asString(node, key, val){
 			node.attr[key] = _mask_ensureTmplFn(val);
