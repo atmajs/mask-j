@@ -1,5 +1,5 @@
 (function() {
-	Proto.removeAttr = Proto.removeProp = function(key){
+	Proto.removeAttr = function(key){
 		return coll_each(this, function(node){
 			node.attr[key] = null;
 		});
@@ -23,10 +23,16 @@
 	};
 	Proto.prop = function (key, val) {
 		if (arguments.length === 1) {
-			return this.length !== 0 ? this[0][key] : null;
+			return this.length !== 0 ? this[0][key] : this[0].attr[key];
 		}
 		return coll_each(this, function(node){
 			node[key] = val;
+		});
+	};
+	Proto.removeProp = function(key){
+		return coll_each(this, function(node){
+			node.attr[key] = null;
+			node[key] = null;
 		});
 	};
 	Proto.tag = function(name) {
