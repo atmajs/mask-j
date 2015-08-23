@@ -35,18 +35,9 @@ var Proto = jMask.prototype = {
 			};
 		}
 
-
 		var type = mix.type;
-
-		if (!type) {
-			// @TODO extend to any type?
-			console.error('Only Mask Node/Component/NodeText/Fragment can be added to jmask set', mix);
-			return this;
-		}
-
 		if (type === Dom.FRAGMENT) {
 			var nodes = mix.nodes;
-
 			for(i = 0, length = nodes.length; i < length;) {
 				this[this.length++] = nodes[i++];
 			}
@@ -54,20 +45,16 @@ var Proto = jMask.prototype = {
 		}
 
 		if (type === Dom.CONTROLLER) {
-
 			if (mix.nodes != null && mix.nodes.length) {
 				for (i = mix.nodes.length; i !== 0;) {
 					// set controller as parent, as parent is mask dom node
 					mix.nodes[--i].parent = mix;
 				}
 			}
-
 			if (mix.$ != null) {
 				this.type = Dom.CONTROLLER;
 			}
 		}
-
-
 
 		this[this.length++] = mix;
 		return this;
