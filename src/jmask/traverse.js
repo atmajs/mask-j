@@ -5,6 +5,13 @@ obj_extend(Proto, {
 		}
 		return this;
 	},
+	map: function(fn, ctx) {
+		var arr = [];
+		for (var i = 0; i < this.length; i++) {
+			arr.push(fn.call(ctx || this, this[i], i));
+		}
+		return this.pushStack(arr);
+	},
 	eq: function(i) {
 		return i === -1 ? this.slice(i) : this.slice(i, i + 1);
 	},
