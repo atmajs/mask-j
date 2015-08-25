@@ -7,7 +7,8 @@ var selector_parse,
 		if (selector == null) 
 			log_error('selector is null for the type', type);
 		
-		if (typeof selector === 'object') 
+		var _type = typeof selector;
+		if (_type === 'object' || _type === 'function') 
 			return selector;
 		
 		var key,
@@ -186,6 +187,9 @@ var selector_parse,
 				type = Dom[node.compoName ? 'CONTROLLER' : 'SET'];
 			}
 			selector = selector_parse(selector, type);
+		}
+		if (typeof selector === 'function') {
+			return selector(node);
 		}
 		
 		var obj = selector.prop ? node[selector.prop] : node,

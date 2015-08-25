@@ -73,7 +73,7 @@ UTest({
 			eq_(text.length, 1);
 			eq_(text.text(), 'Hello');
 		},
-		'!selector not' () {
+		'selector not' () {
 			var set = jmask("div; span;");
 			eq_(set.length, 2);
 			
@@ -81,5 +81,11 @@ UTest({
 			eq_(span.length, 1);
 			eq_(span[0].tagName, 'span');
 		}
+	},
+	'shoud match by function' () {
+		var set = jmask("div;span;section;");
+		var span = set.first(node => node.tagName === 'span');
+		eq_(span.length, 1);
+		eq_(span.get(0).tagName, 'span');
 	}
 });
