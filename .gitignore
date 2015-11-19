@@ -1,0 +1,9 @@
+# build
+/lib/*
+
+# node
+node_modules
+
+# IDE
+.idea
+*.komodoproject
