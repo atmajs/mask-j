@@ -45,9 +45,10 @@ arr_each([
 		case 'filter':
 			return jMask(jmask_filter(this, matcher));
 		case 'children':
+			var nextKey = selector_getNextKey(this);
 			for (i = 0; i < this.length; i++) {
 				x = this[i];
-				var arr = x[matcher.nextKey];
+				var arr = x[nextKey];
 				if (arr == null) {
 					continue;
 				}
