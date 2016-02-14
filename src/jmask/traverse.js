@@ -47,10 +47,11 @@ arr_each([
 		case 'children':
 			for (i = 0; i < this.length; i++) {
 				x = this[i];
-				if (x.nodes == null) {
+				var arr = x[matcher.nextKey];
+				if (arr == null) {
 					continue;
 				}
-				result = result.concat(matcher == null ? x.nodes : jmask_filter(x.nodes, matcher));
+				result = result.concat(matcher == null ? arr : jmask_filter(arr, matcher));
 			}
 			break;
 		case 'parent':
